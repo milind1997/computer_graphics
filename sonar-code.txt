@@ -1,0 +1,658 @@
+#include<windows.h>
+#include<iostream>
+#include<GL/glut.h>
+#include<math.h>
+#include<unistd.h>
+#include<string.h>
+#include<stdio.h>
+void mydisplay();
+void display();
+void display1();
+void display2();
+void display3();
+void display4();
+void frontsreen();
+void drawstring();
+void setFont();
+void helpscreen();
+void firstscreen();
+void curves();
+void curves1();
+void moon();
+int radius=50;
+int radius1=50;
+int f1=0;
+int gb=0;
+int gb1=0;
+float w1=0,x1=0,y11=0,z1=0,s1=0,s2=0;
+float p1=0,q1=0,r1=0,s111=0,s11=0,s22=0;
+//int i1;
+float c;
+//void ship(a);
+int first;
+void fish();
+void water();
+void grass();
+void submarine();
+float st1=0;
+//float a=0;
+float st=0;
+float f=0;
+int flag=0,control_keyl,control_keyr;
+void *currentfont;
+
+void setFont(void *font)
+{
+	currentfont=font;
+}
+
+void drawstring(float x,float y,float z,char *string)
+{
+	char *c;
+	glRasterPos3f(x,y,z);
+
+	for(c=string;*c!='\0';c++)
+	{
+        glutBitmapCharacter(currentfont,*c);
+	}
+}
+
+
+
+void frontscreen(void)
+{
+setFont(GLUT_BITMAP_TIMES_ROMAN_24);
+glClearColor(0.0,0.0,0.0,0);/*background for cover page*/
+glClear(GL_COLOR_BUFFER_BIT);
+glColor3f(1,0,0);
+drawstring(310.0,700.0,0.0,"MANGALORE INSTITUTE OF TECHNOLOGY AND ENGINEERING");
+glColor3f(0.7,0,1);
+drawstring(330,650,0.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
+glColor3f(1,0.5,0);
+drawstring(550,580,0.0,"A MINI PROJECT ON");
+glColor3f(1,0,0);
+drawstring(470,500,0.0,"GRAPHICAL SIMULATION OF SONAR");
+glColor3f(1,0.5,0);
+drawstring(195,400,0.0,"BY:");
+glColor3f(0.8, 0, 0.5);
+drawstring(100,300,0.0,"MILIND                   4MT16CS044");
+drawstring(100,240,0.0,"NAMITH                  4MT16CS046");
+glColor3f(1, 0.5, 0);
+drawstring(980,400,0.0,"GUIDES:");
+glColor3f(0.8, 0, 0.5);
+drawstring(930,300,0.0,"MR PRASHANTH B S");
+drawstring(930,240,0.0,"MRS SARANYA BABU");
+glColor3f(1, 0.1, 1);
+drawstring(543,100,0.0,"PRESS ENTER TO START ");
+glFlush();
+}
+
+void helpscreen()
+{
+setFont(GLUT_BITMAP_TIMES_ROMAN_24);
+glClearColor(0,0,0,0);/*background for cover page*/
+glClear(GL_COLOR_BUFFER_BIT);
+glColor3f(1, 0.1, 1);
+drawstring(500.0,700.0,0.0,"NAVIGATIONS");
+glColor3f(0.7,0,1);
+drawstring(350.0,640.0,0.0,"MENU                                 PRESS RIGHT CLICK");
+
+
+drawstring(350.0,540.0,0.0,"NEXT                                     PRESS 'ENTER'");
+glFlush();
+}
+
+void firstscreen(void)
+{
+setFont(GLUT_BITMAP_TIMES_ROMAN_24);
+glClearColor(0.0,0.0,0.0,0);/*background for cover page*/
+glClear(GL_COLOR_BUFFER_BIT);
+glColor3f(1,1,0);
+drawstring(210,700,0.0,"SONAR IS A TECHNIQUE THAT USES SOUND PROPAGATION TO NAVIGATE, ");
+//glColor3f(0.7,0,1);
+drawstring(210,660,0.0,"COMMUNICATE WITH OR DETECT ON OR UNDER THE SURFACE OF THE WATER.");
+//glColor3f(1,0.5,0);
+drawstring(210,620,0.0,"IT IS SIMPLY MAKING USE OF AN ECHO. ");
+//glColor3f(1,0,0);
+drawstring(210,580,0.0,"IN THIS PROJECT WE SHOW THE WORKING OF SONAR USING A SHIP AND THE");
+//glColor3f(1,0.5,0);
+drawstring(210,540,0.0,"OBJECT. SHIP SENDS THE SOUND WAVES INTO THE ENVIRONMENT AROUND IT. ");
+//glColor3f(0.8, 0, 0.5);
+drawstring(210,500,0.0,"IF IT HITS THE OBJECT, THE OBJECT WILL SEND BACK THE WAVES TO THE SHIP.");
+glColor3f(1, 0, 1);
+drawstring(210,460,0.0,"IF THE SHIP GETS THE ECHO FROM THE OBJECT,IT WILL SHOW 'OBJECT DETECTED.'");
+glColor3f(1, 0, 1);
+drawstring(210,420,0.0,"ELSE, IT WILL SHOW 'OBJECT NOT FOUND'");
+glColor3f(0.8, 0, 0.5);
+
+glColor3f(0, 1, 1);
+drawstring(210,200,0.0,"PRESS 'ENTER' TO SHOW THE WORKING OF SONAR");
+glFlush();
+}
+
+void myKeyboard( unsigned char key, int x, int y )
+
+{
+switch(key)
+{
+	case 13:
+
+flag++;
+//mydisplay();
+default:break;
+}
+
+}
+
+void mydisplay(void)
+{
+glClear(GL_COLOR_BUFFER_BIT);
+if(flag==0)
+frontscreen ();
+if(flag==1)
+	helpscreen();
+	if(flag==2)
+        firstscreen();
+if(flag==3)
+    display();
+    if(flag==4)
+        display1();
+        if(flag==5)
+        display2();
+if(flag==6)
+display3();
+if(flag==7)
+    display4();
+
+glutSwapBuffers();
+}
+
+
+void ship(float a)
+{
+
+   // glClear(GL_COLOR_BUFFER_BIT);
+   // usleep(50);
+    glColor3f(0.3,0.3,0.3);
+    glBegin(GL_POLYGON);
+    glVertex2f(w1=200+a,x1=300);
+    glVertex2f(y11=400+a,z1=300);
+    glVertex2f(430+a,400);
+    glVertex2f(170+a,400);
+    glEnd();
+    glColor3f(0.8,0.8,0.8);
+    glBegin(GL_POLYGON);
+    glVertex2f(200+a,400);
+    glVertex2f(400+a,400);
+    glVertex2f(400+a,430);
+    glVertex2f(200+a,430);
+    glEnd();
+    glColor3f(1,0,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(220+a,430);
+    glVertex2f(380+a,430);
+    glVertex2f(380+a,500);
+    glVertex2f(220+a,500);
+    glEnd();
+    glColor3f(0,0,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(240+a,450);
+    glVertex2f(270+a,450);
+    glVertex2f(270+a,480);
+    glVertex2f(240+a,480);
+    glEnd();
+    glColor3f(0.6,0.6,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(250+a,500);
+    glVertex2f(260+a,500);
+    glVertex2f(260+a,560);
+    glVertex2f(250+a,560);
+    glEnd();
+    glColor3f(0.6,0.6,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(280+a,500);
+    glVertex2f(300+a,500);
+    glVertex2f(300+a,520);
+    glVertex2f(280+a,520);
+    glEnd();
+    glColor3f(0.6,0.6,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(320+a,500);
+    glVertex2f(340+a,500);
+    glVertex2f(340+a,540);
+    glVertex2f(320+a,540);
+    glEnd();
+    glColor3f(0.6,0.6,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(360+a,500);
+    glVertex2f(380+a,500);
+    glVertex2f(380+a,560);
+    glVertex2f(360+a,560);
+    glEnd();
+    glColor3f(1,0,0);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(200+a,560);
+    glVertex2f(260+a,560);
+    glVertex2f(260+a,600);
+    glEnd();
+  //glFlush();
+    //usleep(2000);
+    //glClear();
+
+
+}
+void moon(float x,float y,float r)
+{
+  float i;
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1,1,1);
+
+	glBegin(GL_POLYGON);
+
+	//glVertex2f(x,y);
+	for(i=0;i<360;i++)
+        glVertex2f(r*cos(M_PI*i/180.0)+x,r*sin(M_PI*i/180.0)+y);
+	glEnd();
+	//usleep(400000);
+	//glFlush();
+}
+void submarine()
+{
+glColor3f(0,0,0);
+glBegin(GL_POLYGON);
+glVertex2f(p1=1000+30-300,q1=150);
+glVertex2f(1000+30-300,100);
+glVertex2f(1050-300,100);
+glVertex2f(1080-300,120);
+glVertex2f(1080-300,130);
+glVertex2f(1050-300,150);
+//glVertex2f(1000,150);
+glEnd();
+glBegin(GL_POLYGON);
+glVertex2f(1080-300,130);
+glVertex2f(1080-300,120);
+glVertex2f(1100-300,110);
+glVertex2f(1250-300,110);
+glVertex2f(r1=1250-300,s111=140);
+glVertex2f(1100-300,140);
+//glVertex2f(1080,130);
+glEnd();
+glBegin(GL_POLYGON);
+glVertex2f(1200-300,140);
+glVertex2f(1170-300,175);
+glVertex2f(1150-300,175);
+glVertex2f(1130-300,140);
+glEnd();
+glBegin(GL_POLYGON);
+glVertex2f(1000+30-300,135);
+glVertex2f(980+40-300,135);
+glVertex2f(980+40-300,115);
+glVertex2f(1000+30-300,115);
+glEnd();
+glBegin(GL_TRIANGLES);
+glVertex2f(1250-300,140);
+glVertex2f(1250-300,110);
+glVertex2f(1270-300,125);
+glEnd();
+}
+void water()
+{
+    glColor3f(0,0,0.5);
+    glBegin(GL_POLYGON);
+    glVertex2f(0,0);
+    glVertex2f(0,300);
+    glVertex2f(1386,300);
+    glVertex2f(1386,0);
+    glEnd();
+    //glFlush();
+}
+void grass()
+{
+    glColor3f(0,0.6,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(0,90);
+    glVertex2f(100,95);
+    glVertex2f(300,90);
+    glVertex2f(600,40);
+    glVertex2f(1000,70);
+    glVertex2f(1386,50);
+    glVertex2f(1386,0);
+    glVertex2f(0,0);
+    glVertex2f(0,90);
+    glEnd();
+}
+void fish(float a)
+{
+    glColor3f(1,0,0);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(100+800+a,100+100);
+    glVertex2f(100+800+a,120+100);
+    glVertex2f(120+800+a,110+100);
+    glEnd();
+    glBegin(GL_POLYGON);
+    glVertex2f(110+800+a,110+100);
+    glVertex2f(130+800+a,130+100);
+    glVertex2f(150+800+a,110+100);
+    glVertex2f(130+800+a,90+100);
+    glEnd();
+    glColor3f(1,0,0);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(800-600-a,200);
+    glVertex2f(800-600-a,220);
+    glVertex2f(780-600-a,210);
+    glEnd();
+    glBegin(GL_POLYGON);
+    glVertex2f(790-600-a,210);
+    glVertex2f(770-600-a,190);
+    glVertex2f(750-600-a,210);
+    glVertex2f(770-600-a,230);
+    glEnd();
+  //glFlush();
+    }
+void display()
+{
+   // glClearColor(0,0,0,0);
+    //int i=0;
+    glClear(GL_COLOR_BUFFER_BIT);
+    water();
+    grass();
+     moon(1000,700,50);
+    submarine();
+    fish(0);
+    ship(0);
+   // glutSwapBuffers();
+   glFlush();
+}
+void upst()
+{
+    st=st+0.1;
+
+}
+void upst1()
+{
+    f=f+0.1;
+
+}
+
+void upst3()
+{
+    st1+=0.05;
+}
+void display1()
+{
+
+glClear(GL_COLOR_BUFFER_BIT);
+
+water();
+grass();
+ moon(1000,700,50);
+submarine();
+fish(st1);
+ship(st);
+//glutSwapBuffers();
+glFlush();
+
+ upst3();
+ upst();
+}
+void curves(float x,float y,float r) {
+	float i;
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1,1,1);
+glLineWidth(5);
+	glBegin(GL_LINES);
+
+	//glVertex2f(x,y);
+	for(i=180.0f;i<360;i++)
+        glVertex2f(r*cos(M_PI*i/180.0)+x,r*sin(M_PI*i/180.0)+y);
+	glEnd();
+	usleep(10000);
+	glFlush();
+}
+void curves1(float x,float y,float r) {
+	float i;
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1,1,1);
+    glLineWidth(5);
+	glBegin(GL_LINES);
+
+	//glVertex2f(x,y);
+
+	for(i=0.0f;i<180;i++)
+        glVertex2f(r*cos(M_PI*i/180.0)+x,r*sin(M_PI*i/180.0)+y);
+	glEnd();
+	usleep(10000);
+	glFlush();
+}
+void display2()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    // f=st;
+    upst1();
+    upst3();
+    water();
+    grass();
+    moon(1000,700,50);
+    submarine();
+    fish(st1);
+
+    ship(st);
+
+    glFlush();
+    s1=(w1+y11)/2;
+    s2=(x1+z1)/2;
+    s11=(p1+r1)/2;
+    s22=(q1+s111)/2;
+    first=0;
+    f1=0;
+    radius=40;
+    radius1=40;
+    gb=0;
+    gb1=0;
+
+ //   glutSwapBuffers();
+}
+void display4()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    // f=st;
+    upst1();
+    upst3();
+    water();
+    grass();
+    moon(1000,700,50);
+    submarine();
+    fish(st1);
+
+    ship(st);
+    if(f1==1)
+    {
+    glColor3f(0,1,0);
+    glBegin(GL_POLYGON);
+    glVertex2f(s1-10,300);
+    glVertex2f(850,175);
+    glVertex2f(870,175);
+    glVertex2f(s1+10,300);
+    glEnd();
+    char result[50];
+    float num=sqrt(pow((850-s1-10),2)+pow((300-175),2));
+    sprintf(result,"%f",num);
+    glColor3f(0,1,0);
+    drawstring(450.0,200.0,0.0,"DISTANCE=");
+    drawstring(590.0,200.0,0.0,result);
+    glFlush();
+
+    }
+    else
+    {
+        glColor3f(0,1,0);
+        drawstring(1000.0,600.0,0.0,"OBJECT NOT FOUND");
+    }
+    glFlush();
+
+}
+void display3()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    // f=st;
+    //int det;
+
+    upst1();
+    upst3();
+    water();
+    grass();
+    moon(1000,700,50);
+    submarine();
+    fish(st1);
+    //b2=s1;
+
+    ship(st);
+
+    if(s1+radius+80<p1||s1-radius-80>r1+20)
+        {
+
+
+            curves(s1,s2,radius);
+            if(gb>20)
+                curves(s1,s2-20,radius+10);
+                if(gb>40)
+                curves(s1,s2-40,radius+20);
+                if(gb>60)
+                curves(s1,s2-60,radius+30);
+                if(gb>80)
+                curves(s1,s2-80,radius+40);
+                if(gb>100)
+                curves(s1,s2-100,radius+50);
+                if(gb>120)
+                curves(s1,s2-120,radius+60);
+                if(gb>140)
+                curves(s1,s2-140,radius+70);
+                if(gb>160){
+                curves(s1,s2-160,radius+80);
+
+                glColor3f(0,1,0);
+        drawstring(1000.0,600.0,0.0,"OBJECT NOT FOUND");
+
+                }
+
+
+
+        }
+    else
+    {
+
+
+           if(gb1<140)
+           {
+                curves(s1,s2,radius);
+                if(gb1>20)
+                curves(s1,s2-20,radius+10);
+                if(gb1>40)
+                curves(s1,s2-40,radius+20);
+                if(gb1>60)
+                curves(s1,s2-60,radius+30);
+                if(gb1>80)
+                curves(s1,s2-80,radius+40);
+                if(gb1>100)
+                curves(s1,s2-100,radius+50);
+                if(gb1>120){
+                curves(s1,s2-120,radius+60);
+
+                }
+
+           }
+           else
+           {
+                curves1(s11,s22,radius1);
+                if(gb1>140)
+                curves1(s11,s22+20,radius1+10);
+                if(gb1>160)
+                curves1(s11,s22+40,radius1+20);
+                if(gb1>180)
+                curves1(s11,s22+60,radius1+30);
+                if(gb1>200)
+                curves1(s11,s22+80,radius1+40);
+                if(gb1>220)
+                curves1(s11,s22+100,radius1+50);
+                if(gb1>220){
+                curves1(s11,s22+120,radius1+60);
+                glColor3f(0,1,0);
+        drawstring(1000.0,600.0,0.0,"OBJECT DETECTED");
+                }
+                }
+
+    f1=1;
+
+     }
+gb++;
+gb1++;
+
+    glFlush();
+
+
+
+ //   glutSwapBuffers();
+}
+
+void menuhandler(int choice)
+{
+switch(choice)
+{
+case 1:flag=4;
+//mydisplay();
+
+    break;
+case 2:flag=5;
+    break;
+case 3:
+    flag=6;
+    break;
+case 4:
+    flag=7;
+    break;
+    case 5:
+    exit(0);
+}
+}
+
+void myinit()
+{
+glMatrixMode(GL_PROJECTION);
+glLoadIdentity();
+gluOrtho2D(0.0,1366.0,0.0,768.0);
+}
+
+int main(int argc, char* argv[])
+{
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+glutInitWindowSize(1366,768);
+glutInitWindowPosition(0,0);
+glutCreateWindow("GRAPHICAL SIMULATION OF SONAR");
+glutDisplayFunc(mydisplay);
+ glutIdleFunc(mydisplay);
+
+glutKeyboardFunc(myKeyboard);
+myinit();
+glutCreateMenu(menuhandler);
+    glutAddMenuEntry("START",1);
+    glutAddMenuEntry("STOP",2);
+        glutAddMenuEntry("ACTIVATE SONAR",3);
+        glutAddMenuEntry("CALCULATE DISTANCE",4);
+        glutAddMenuEntry("EXIT",5);
+
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+glutMainLoop();
+}
+
+
+
+
+
+
+
+
+
+
+
